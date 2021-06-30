@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-
 public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float raycastDistance;
 
     private Rigidbody rb;
+    
+
 
     private void Start()
     {
