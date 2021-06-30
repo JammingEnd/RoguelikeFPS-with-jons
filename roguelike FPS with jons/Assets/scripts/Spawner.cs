@@ -62,7 +62,7 @@ public class Spawner : MonoBehaviour
       
         SpawnInterval(spawnAbles[Random.Range(0, (spawnAbles.Count))], newPos); 
     }
-
+    
     /// <summary>
     /// starts the coroutine
     /// </summary>
