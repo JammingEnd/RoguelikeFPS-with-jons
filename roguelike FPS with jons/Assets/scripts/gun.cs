@@ -12,6 +12,8 @@ public class gun : MonoBehaviour
     public float minRange;
     public float velocity;
     public float reloadSpeed;
+    public bool isSemi;
+
 
     [Header("Attachment stuff")]
     public List<AttachmentScripts> sightsObj = new List<AttachmentScripts>();
@@ -52,9 +54,9 @@ public class gun : MonoBehaviour
 
         GetClickDown();
 
-        if(currentAmmo >= magSize)
+        if (currentAmmo >= magSize)
         {
-            StopCoroutine(Reload());
+            StopCoroutine("Reload");
         }
     }
 
@@ -169,55 +171,68 @@ public class gun : MonoBehaviour
 
     private void GetClickDown()
     {
-       
         if (currentAmmo <= 0)
         {
-            StopCoroutine(AutoFire(fireRate));
+           StopCoroutine("AutoFire");
             canfire = false;
-            StartCoroutine(Reload());
+           if(currentMag != null)
+            {
+                StartCoroutine(Reload());
+            }
+           
             return;
         }
         if (Input.GetMouseButton(0))
         {
+           
+
             if (!canfire)
             {
                 canfire = true;
-
-                StartCoroutine(AutoFire(fireRate));
+                StartCoroutine("AutoFire");
                 canfire = true;
             }
+          
         }
-        else
+       
+        if (Input.GetMouseButtonUp(0))
         {
-            StopCoroutine(AutoFire(fireRate));
+            StopCoroutine("AutoFire");
             canfire = false;
-            return;
+            
         }
-
-
     }
 
-    private IEnumerator AutoFire(float rate)
+    private IEnumerator AutoFire()
     {
-        while (canfire == true)
+        while (canfire == true && !Input.GetMouseButtonUp(0))
         {
             Fire();
             currentAmmo--;
-            yield return new WaitForSeconds(rate);
+            if (currentAmmo > 0)
+            {
+                yield return new WaitForSeconds(fireRate);
+            }
+            if (isSemi)
+            {
+                yield break;
+
+            }
+
+
         }
     }
-    IEnumerator Reload()
+
+    private IEnumerator Reload()
     {
-        while(currentAmmo <= 0)
+        while (currentAmmo <= 0)
         {
-            //play animation;
             currentMag.SetActive(false);
             yield return new WaitForSeconds(reloadSpeed);
             currentMag.SetActive(true);
             currentAmmo = magSize;
         }
     }
-
 
     private void Fire()
     {
@@ -226,5 +241,6 @@ public class gun : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(player.transform.rotation.eulerAngles)) as GameObject;
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
         thisBullet.BulletStats(damage, velocity);
+       
     }
 }
