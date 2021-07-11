@@ -12,6 +12,7 @@ public class gun : MonoBehaviour
     public float minRange;
     public float velocity;
     public float reloadSpeed;
+   
     public bool isSemi;
 
     [Header("Attachment stuff")]
@@ -41,6 +42,8 @@ public class gun : MonoBehaviour
     private bool isReloading = false;
     public GameObject bullet;
 
+    [HideInInspector]
+    public float reloadSpeedMultiplier = 1;
     // Update is called once per frame
     private void Update()
     {
@@ -56,8 +59,9 @@ public class gun : MonoBehaviour
 
         if (currentAmmo >= magSize)
         {
+           
             StopCoroutine("Reload");
-            isReloading = false;
+           
         }
     }
 
@@ -178,6 +182,7 @@ public class gun : MonoBehaviour
             canfire = false;
             if (currentMag != null && isReloading != true)
             {
+                reloadSpeed *= (reloadSpeed - 100) / 100;
                 StartCoroutine(Reload());
                 isReloading = true;
             }
@@ -223,6 +228,7 @@ public class gun : MonoBehaviour
             yield return new WaitForSeconds(reloadSpeed);
             currentMag.SetActive(true);
             currentAmmo = magSize;
+            isReloading = false;
             StopCoroutine("AutoFire");
             yield break;
         }

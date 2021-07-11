@@ -7,7 +7,7 @@ public class WeaponWielderScript : MonoBehaviour
 
 
     public GameObject[] weapons;
-    private GameObject currentGun;
+    public GameObject currentGun;
     public GameObject gunPos;
     void Start()
     {

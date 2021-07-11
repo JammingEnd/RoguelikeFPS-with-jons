@@ -10,7 +10,7 @@ public class PlayerCameraCon : MonoBehaviour
     [SerializeField] private float smoothing;
     [SerializeField] private int MaxLookRotation;
 
-    private GameObject player;
+    public GameObject player;
     private Vector2 smoothedVelocity;
     private Vector2 currentLook;
     private void Start()
