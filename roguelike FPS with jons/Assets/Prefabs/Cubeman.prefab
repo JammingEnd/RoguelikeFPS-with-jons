@@ -75,7 +75,10 @@ GameObject:
   - component: {fileID: 7910168214212378651}
   - component: {fileID: 2017242931459427882}
   - component: {fileID: 1551961692372557738}
-  - component: {fileID: 6825494873106556217}
+  - component: {fileID: 1967833832}
+  - component: {fileID: 1967833838}
+  - component: {fileID: 1690417837135300410}
+  - component: {fileID: 832410681048005829}
   m_Layer: 0
   m_Name: Cubeman
   m_TagString: Player
@@ -115,6 +118,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  JumpHeight: 4
+  SlideSpeed: 10
   raycastDistance: 2
 --- !u!114 &2017242931459427882
 MonoBehaviour:
@@ -136,6 +141,7 @@ MonoBehaviour:
   gunRecoilV: 0
   gunWeight: 0
   bulletLifetime: 0
+  gunMaxSpread: 0
   gunMagSize: 0
   gunBulletCount: 0
   gunBurstCount: 0
@@ -157,14 +163,48 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
---- !u!65 &6825494873106556217
-BoxCollider:
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!95 &1967833832
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865050768917005384}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a47bb9fa82ea74e4aaf7aa99941a8009, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1967833838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865050768917005384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0ca8592fe540e418633c687938ad1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aquiredBlockCards:
+  - {fileID: 536028224784876374, guid: e66c0c0a6bdc44b43908372d624f702d, type: 3}
+  blockCooldown: 5
+--- !u!136 &1690417837135300410
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,9 +213,24 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.2620196, y: 0.70354056, z: 4.283175}
-  m_Center: {x: -0.64279234, y: -0.65706986, z: -2.2134135}
+  m_Radius: 4.41197
+  m_Height: 21.719172
+  m_Direction: 1
+  m_Center: {x: 0, y: 9.47329, z: 0}
+--- !u!136 &832410681048005829
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865050768917005384}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 6.1
+  m_Height: 23.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 9.47329, z: 0}
 --- !u!1 &1113779045282768257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,7 +1682,7 @@ Camera:
   m_Depth: -0.3
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 695
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

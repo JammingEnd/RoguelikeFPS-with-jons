@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StatCenter : MonoBehaviour
 {
+    public static string playerName;
+
     [Header("Combat variables")]
 
     public float gunDamage, bulletVelocity, gunFireRate, gunReloadSpeed, gunRecoilH, gunRecoilV, gunWeight, bulletLifetime, gunMaxSpread; //firerate is in seconds, reloadspeed too
@@ -11,7 +13,7 @@ public class StatCenter : MonoBehaviour
     public bool isSemi, isBurst;
     [Header("Pysical stats")]
 
-    public float health, movementSpeed, climbingSpeed;
+    public float health, movementSpeed, slideDistance, jumpHeight, sprintSpeed;
 
     [Header("Blocking")]
     public float blockCooldown;
@@ -21,11 +23,15 @@ public class StatCenter : MonoBehaviour
     private WeaponWielderScript weaponWielder;
     private gun gun;
 
+    private PlayerMovementController playerMovement;
 
     void Start()
     {
-        weaponWielder = gameObject.GetComponentInChildren<WeaponWielderScript>();
+        playerName = "Pierre";
+        this.gameObject.name = playerName;
 
+        weaponWielder = gameObject.GetComponentInChildren<WeaponWielderScript>();
+        playerMovement = gameObject.GetComponent<PlayerMovementController>();
         //temp
         DefaultStat();
 
@@ -48,6 +54,10 @@ public class StatCenter : MonoBehaviour
         isSemi = false;
         isBurst = false;
 
+        movementSpeed = 4;
+        jumpHeight = 4;
+        slideDistance = 10;
+        sprintSpeed = 4; // 1.5 * Sqrt(Sprintspeed)
     }
    // Update is called once per frame
     void Update()
@@ -60,6 +70,10 @@ public class StatCenter : MonoBehaviour
         gun = weaponWielder.currentGun.GetComponent<gun>();
         gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, gunFireRate, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread);
 
+    }
+    void ActivatePlayer()
+    {
+        playerMovement.AssignVariables(movementSpeed, jumpHeight, slideDistance, sprintSpeed);
     }
 
 }
