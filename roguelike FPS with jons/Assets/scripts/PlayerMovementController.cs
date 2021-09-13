@@ -1,22 +1,69 @@
 ﻿using UnityEngine;
+
 public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float JumpHeight;
+    [SerializeField] private float SlideSpeed;
     [SerializeField] private float raycastDistance;
 
+    private bool isSprinting;
+    private bool isSliding;
+    bool isJumping;
     private Rigidbody rb;
-    
 
+    private Animator animator;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-    }
+        animator = GetComponent<Animator>();
 
+    }
 
     private void FixedUpdate()
     {
-        Move();
+        if (!isSliding)
+        {
+            Move();
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Run();
+        }
+        else
+        {
+            if (isSprinting == true)
+            {
+                speed /= 1.6f;
+                gameObject.GetComponentInChildren<Camera>().fieldOfView -= 20;
+                isSprinting = false;
+            }
+        }
+        if (Input.GetKey(KeyCode.C) && isJumping != true)
+        {
+            Sliding();
+        }
+        else
+        {
+            if (isSliding == true)
+            {
+                if(isSliding == true)
+                {
+                    gameObject.GetComponentInChildren<Camera>().fieldOfView -= 20;
+
+                }
+
+                isSliding = false;
+                animator.SetBool("isSlidingAni", false);
+
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
     }
 
     /// <summary>
@@ -32,7 +79,39 @@ public class PlayerMovementController : MonoBehaviour
         Vector3 newPosition = rb.position + rb.transform.TransformDirection(movement);
         rb.MovePosition(newPosition);
     }
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        isJumping = false;
+    }
+    private void Jump()
+    {
+        if(isJumping == false)
+        {
+            rb.AddForce(rb.transform.up * JumpHeight, ForceMode.Impulse);
+        }
+    }
 
-    
+    private void Run()
+    {
+        if (isSprinting == false)
+        {
+            speed *= 1.6f;
+            gameObject.GetComponentInChildren<Camera>().fieldOfView += 20;
+        }
+
+        isSprinting = true;
+    }
+
+    private void Sliding()
+    {
+        animator.SetBool("isSlidingAni", true);
+
+        if (isSliding == false)
+        {
+            //play sliding animation
+            rb.AddForce(transform.forward * SlideSpeed, ForceMode.VelocityChange);
+            gameObject.GetComponentInChildren<Camera>().fieldOfView += 20;
+        }
+        isSliding = true;
+    }
 }

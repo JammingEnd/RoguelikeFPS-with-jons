@@ -5,34 +5,43 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float Damage;
-    public float Currentvelocity;
     private float lifetime = 3;
     private EnemyStatsAndHP enemy;
 
+    private MeshCollider bulletollider;
     private void Start()
     {
+        
         Destroy(this.gameObject, lifetime);
     }
-    public void BulletStats(float damage, float velocity)
+    public void BulletStats(float damage)
     {
         Damage = damage;
-        Currentvelocity = velocity;
     }
-    private void Update()
-    {
-        this.gameObject.transform.position += transform.forward * Currentvelocity * Time.deltaTime;
-
-        
-    }
+   
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+       
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
         {
-            enemy = other.gameObject.GetComponent<EnemyStatsAndHP>();
+            enemy = collision.gameObject.GetComponent<EnemyStatsAndHP>();
             enemy.currentHP -= Damage;
             Destroy(this.gameObject);
+            return;
+        }
+        if (collision.collider.tag == "Terrain")
+        {
+            OnCollision();
         }
     }
-  
+    void OnCollision()
+    {
+        Destroy(this.gameObject);
+    }
+
 
 }

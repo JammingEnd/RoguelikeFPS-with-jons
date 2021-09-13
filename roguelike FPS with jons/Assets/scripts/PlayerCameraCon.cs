@@ -38,10 +38,15 @@ public class PlayerCameraCon : MonoBehaviour
         smoothedVelocity.y = Mathf.Lerp(smoothedVelocity.y, inputValues.y, 1f / smoothing);
 
         currentLook += smoothedVelocity;
+       
+       currentLook.y = Mathf.Clamp(currentLook.y, -MaxLookRotation, MaxLookRotation);
+       transform.localRotation = Quaternion.AngleAxis(-currentLook.y, Vector3.right);
+       player.transform.localRotation = Quaternion.AngleAxis(currentLook.x, player.transform.up);
 
-        currentLook.y = Mathf.Clamp(currentLook.y, -MaxLookRotation, MaxLookRotation);
-        transform.localRotation = Quaternion.AngleAxis(-currentLook.y, Vector3.right);
-        player.transform.localRotation = Quaternion.AngleAxis(currentLook.x, player.transform.up);
-
+    }
+    public void Recoil(float amountY, float amountX)
+    {
+        currentLook.y += amountY;
+        currentLook.x += amountX;
     }
 }

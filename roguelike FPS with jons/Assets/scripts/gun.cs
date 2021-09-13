@@ -1,20 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class gun : MonoBehaviour
 {
-    public int magSize;
+    private int magSize;
     private int currentAmmo;
-    public float damage;
-    public float fireRate;
-    public float Maxrange;
-    public float minRange;
-    public float velocity;
-    public float reloadSpeed;
-   
-    public bool isSemi;
+    private float damage;
+    private float fireRate;
+    private float Maxrange;
+    private float minRange;
+    private float velocity;
+    private float reloadSpeed;
+    private float Hrecoil, Vrecoil;
+    private int bulletCount; //bullets is like pellets in a slug
+    private float maxSpread;
 
+    private bool isSemi, isBurst;
+    private bool isSemiBurst = false;
+
+    //  private Animation reloadAnim;
+    private Animator animController;
+
+    public GameObject muzzlePlace;
+    public GameObject magPlace;
+    public GameObject currentMag;
+
+    #region AttachmentVariables
+
+    /*
     [Header("Attachment stuff")]
     public List<AttachmentScripts> sightsObj = new List<AttachmentScripts>();
 
@@ -22,11 +35,10 @@ public class gun : MonoBehaviour
     public List<AttachmentScripts> muzzleObjs = new List<AttachmentScripts>();
     public List<AttachmentScripts> otherObjs = new List<AttachmentScripts>();
     public GameObject sightPlace;
-    public GameObject magPlace;
-    public GameObject muzzlePlace;
+
     public GameObject otherPlace;
     private GameObject currentSight;
-    private GameObject currentMag;
+
     private GameObject currentMuzzle;
     private GameObject currentOther;
     private AttachmentScripts currentSightScript, currentMagScript, currentMuzzleScript, currentOtherScript;
@@ -35,6 +47,9 @@ public class gun : MonoBehaviour
     private int indexMags;
     private int indexMuzzles;
     private int indexOthers;
+    */
+
+    #endregion AttachmentVariables
 
     [Header("other stuff, bullets etc")]
     private bool canfire = true;
@@ -42,31 +57,60 @@ public class gun : MonoBehaviour
     private bool isReloading = false;
     public GameObject bullet;
 
-    [HideInInspector]
-    public float reloadSpeedMultiplier = 1;
-    // Update is called once per frame
+    private PlayerCameraCon playerCamera;
+
+    private void Start()
+    {
+        currentMag = (GameObject)Instantiate(currentMag, magPlace.transform);
+        playerCamera = gameObject.GetComponentInParent<PlayerCameraCon>();
+        animController = gameObject.GetComponent<Animator>();
+    }
+
+    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread)
+    {
+        magSize = _magSize;
+        bulletCount = _bulletCount;
+        damage = _damage;
+        fireRate = _firerate;
+        velocity = _velocity;
+        reloadSpeed = _reloadspeed;
+        isSemi = _isSemi;
+        isBurst = _isBurst;
+        Hrecoil = _Hrecoil;
+        Vrecoil = _Vrecoil;
+        maxSpread = _maxSpread;
+        if (isSemi == true && isBurst == true)
+        {
+            isSemiBurst = true;
+        }
+    }
+
     private void Update()
     {
-        UpdateSights();
-
-        UpdateMag();
-
-        UpdateMuzzle();
-
-        UpdateOther();
-
         GetClickDown();
 
         if (currentAmmo >= magSize)
         {
-           
+            animController.SetBool("enableReload", false);
             StopCoroutine("Reload");
-           
+            animController.SetBool("enableReload", false);
         }
+    }
+
+    private void AttachmentUpdate()
+    {
+        // UpdateSights();
+
+        //  UpdateMag();
+
+        //  UpdateMuzzle();
+
+        //  UpdateOther();
     }
 
     #region attachmentswitching ===========================================
 
+    /*
     //======================================== god code
     private void UpdateMag()
     {
@@ -82,7 +126,6 @@ public class gun : MonoBehaviour
             Debug.Log(indexMags);
 
             //  Instantiate(currentSight, sightPlace.transform.position, Quaternion.Euler(sightPlace.transform.forward));
-            currentMag = (GameObject)Instantiate(currentMag, magPlace.transform);
 
             magSize = currentMagScript.magsize;
 
@@ -171,6 +214,7 @@ public class gun : MonoBehaviour
             indexOthers = 0;
         }
     }
+    */
 
     #endregion attachmentswitching ===========================================
 
@@ -180,11 +224,12 @@ public class gun : MonoBehaviour
         {
             StopCoroutine("AutoFire");
             canfire = false;
-            if (currentMag != null && isReloading != true)
+            if (isReloading != true)
             {
-                reloadSpeed *= (reloadSpeed - 100) / 100;
+                animController.speed = 1 / reloadSpeed;
+                animController.SetBool("enableReload", true);
+
                 StartCoroutine(Reload());
-                isReloading = true;
             }
 
             return;
@@ -210,7 +255,18 @@ public class gun : MonoBehaviour
     {
         while (canfire == true && !Input.GetMouseButtonUp(0))
         {
-            Fire();
+            if (bulletCount > 1)
+            {
+                for (int i = 0; i < bulletCount; i++)
+                {
+                    FireSpread();
+                }
+            }
+            else
+            {
+                Fire();
+            }
+
             currentAmmo--;
             if (isSemi)
             {
@@ -224,22 +280,56 @@ public class gun : MonoBehaviour
     {
         while (currentAmmo <= 0)
         {
-            currentMag.SetActive(false);
+            //currentAmmo = 0;
+            // reloadAnim.Play();
+            animController.SetBool("enableReload", true);
+
+            isReloading = true;
             yield return new WaitForSeconds(reloadSpeed);
-            currentMag.SetActive(true);
             currentAmmo = magSize;
             isReloading = false;
+            animController.SetBool("enableReload", false);
             StopCoroutine("AutoFire");
             yield break;
         }
+    }
+
+    private void FireSpread()
+    {
+        // fire() but with spread
+        GameObject player = gameObject.GetComponentInParent<Transform>().gameObject;
+        Quaternion spread = Quaternion.Euler(player.transform.rotation.eulerAngles + new Vector3(Random.Range(-maxSpread, maxSpread), Random.Range(-maxSpread, maxSpread), 0f));
+
+        Vector3 muzzleoffset = muzzlePlace.transform.position;
+
+        GameObject newBullet = Instantiate(bullet, muzzleoffset, spread) as GameObject;
+
+        Bullet thisBullet = newBullet.GetComponent<Bullet>();
+        thisBullet.BulletStats(damage);
+
+        thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
+
+        Recoil(Mathf.Sqrt(bulletCount + 2));
     }
 
     private void Fire()
     {
         GameObject player = gameObject.GetComponentInParent<Transform>().gameObject;
         Vector3 muzzleoffset = muzzlePlace.transform.position;
+
         GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(player.transform.rotation.eulerAngles)) as GameObject;
+
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
-        thisBullet.BulletStats(damage, velocity);
+        thisBullet.BulletStats(damage);
+
+        thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
+
+        Recoil(1);
+    }
+
+    private void Recoil(float amount)
+    {
+        float RndHrecoil = Random.Range(-Hrecoil, Hrecoil);
+        playerCamera.Recoil(Vrecoil / amount, RndHrecoil);
     }
 }

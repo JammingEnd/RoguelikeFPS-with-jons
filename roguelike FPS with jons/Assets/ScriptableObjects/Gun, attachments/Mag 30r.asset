@@ -19,6 +19,6 @@ MonoBehaviour:
   isOther: 0
   magnification: 0
   magsize: 30
-  reloadSpeed: 2
+  reloadSpeed: 2.517
   velocityIncrease: 0
   hipfireMultiplier: 0

@@ -1,45 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponWielderScript : MonoBehaviour
 {
-
-
     public GameObject[] weapons;
     public GameObject currentGun;
     public GameObject gunPos;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        SwitchWeapons();  
-    }
 
-    void SwitchWeapons()
+    public void SwitchWeapons()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (currentGun != null && currentGun != weapons[0])
         {
-            if(currentGun != null && currentGun != weapons[0])
-            {
-                Destroy(currentGun);
-            }
-            currentGun = Instantiate(weapons[0], gunPos.transform);
-
+            Destroy(currentGun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (currentGun != null && currentGun != weapons[1])
-            {
-                Destroy(currentGun);
-            }
-            currentGun = Instantiate(weapons[1], gunPos.transform);
-
-        }
+        currentGun = Instantiate(weapons[0], gunPos.transform);
     }
-
 }
