@@ -36,7 +36,7 @@ public class StatCenter : MonoBehaviour
         DefaultStat();
 
         ActivateWeapon();
-
+        ActivatePlayer();
     }
 
     void DefaultStat()
@@ -48,32 +48,30 @@ public class StatCenter : MonoBehaviour
         gunReloadSpeed = 3;
         gunRecoilH = 2;
         gunRecoilV = 4;
-        //gunWeight = ;
+        gunWeight = 10;
         gunMagSize = 10;
         gunMaxSpread = 2;
+        gunBurstCount = 3;
         isSemi = false;
         isBurst = false;
 
-        movementSpeed = 4;
-        jumpHeight = 4;
+        movementSpeed = 5;
+        jumpHeight = 5;
         slideDistance = 10;
         sprintSpeed = 4; // 1.5 * Sqrt(Sprintspeed)
-    }
-   // Update is called once per frame
-    void Update()
-    {
-        
     }
     void ActivateWeapon()
     {
         weaponWielder.SwitchWeapons();
         gun = weaponWielder.currentGun.GetComponent<gun>();
-        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, gunFireRate, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread);
+        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, gunFireRate, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount);
 
     }
     void ActivatePlayer()
     {
-        playerMovement.AssignVariables(movementSpeed, jumpHeight, slideDistance, sprintSpeed);
+        float finalSpeed = movementSpeed - (Mathf.Sqrt(gunWeight / 10));
+        float finalJumpHeight = jumpHeight - (Mathf.Sqrt(gunWeight / 10));
+        playerMovement.AssignVariables(finalSpeed, finalJumpHeight, slideDistance, sprintSpeed);
     }
 
 }

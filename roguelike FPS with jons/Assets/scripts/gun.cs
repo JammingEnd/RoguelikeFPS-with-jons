@@ -16,6 +16,7 @@ public class gun : MonoBehaviour
     private float maxSpread;
 
     private bool isSemi, isBurst;
+    private int burstCount;
     private bool isSemiBurst = false;
 
     //  private Animation reloadAnim;
@@ -66,7 +67,7 @@ public class gun : MonoBehaviour
         animController = gameObject.GetComponent<Animator>();
     }
 
-    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread)
+    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount)
     {
         magSize = _magSize;
         bulletCount = _bulletCount;
@@ -79,6 +80,7 @@ public class gun : MonoBehaviour
         Hrecoil = _Hrecoil;
         Vrecoil = _Vrecoil;
         maxSpread = _maxSpread;
+        burstCount = _burstCount;
         if (isSemi == true && isBurst == true)
         {
             isSemiBurst = true;
@@ -223,6 +225,7 @@ public class gun : MonoBehaviour
         if (currentAmmo <= 0)
         {
             StopCoroutine("AutoFire");
+            StopCoroutine("BurstFire");
             canfire = false;
             if (isReloading != true)
             {
@@ -239,7 +242,14 @@ public class gun : MonoBehaviour
             if (!canfire)
             {
                 canfire = true;
-                StartCoroutine("AutoFire");
+                if (burstCount > 1)
+                {
+                    StartCoroutine("BurstFire");
+                }
+                else
+                {
+                    StartCoroutine("AutoFire");
+                }
                 canfire = true;
             }
         }
@@ -247,30 +257,48 @@ public class gun : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             StopCoroutine("AutoFire");
+            StopCoroutine("BurstFire");
             canfire = false;
         }
+    }
+
+    private void Shoot()
+    {
+        if (bulletCount > 1)
+        {
+            for (int i = 0; i < bulletCount; i++)
+            {
+                FireSpread();
+            }
+        }
+        else
+        {
+            Fire();
+        }
+        currentAmmo--;
     }
 
     private IEnumerator AutoFire()
     {
         while (canfire == true && !Input.GetMouseButtonUp(0))
         {
-            if (bulletCount > 1)
-            {
-                for (int i = 0; i < bulletCount; i++)
-                {
-                    FireSpread();
-                }
-            }
-            else
-            {
-                Fire();
-            }
-
-            currentAmmo--;
+            Shoot();
             if (isSemi)
             {
                 yield break;
+            }
+            yield return new WaitForSeconds(fireRate);
+        }
+    }
+
+    private IEnumerator BurstFire()
+    {
+        while (canfire == true && !Input.GetMouseButtonUp(0))
+        {
+            for (int i = 0; i < burstCount; i++)
+            {
+                Shoot();
+                yield return new WaitForSeconds(fireRate / (burstCount + 1));
             }
             yield return new WaitForSeconds(fireRate);
         }
@@ -290,6 +318,7 @@ public class gun : MonoBehaviour
             isReloading = false;
             animController.SetBool("enableReload", false);
             StopCoroutine("AutoFire");
+            StopCoroutine("BurstFire");
             yield break;
         }
     }
