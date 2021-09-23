@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class gun : MonoBehaviour
 {
-    private int magSize;
-    private int currentAmmo;
+    public int magSize;
+    public int currentAmmo;
     private float damage;
     private float fireRate;
     private float Maxrange;
@@ -57,7 +57,7 @@ public class gun : MonoBehaviour
 
     private bool isReloading = false;
     public GameObject bullet;
-
+    private CardHandler cardHandler;
     private PlayerCameraCon playerCamera;
 
     private void Start()
@@ -67,7 +67,7 @@ public class gun : MonoBehaviour
         animController = gameObject.GetComponent<Animator>();
     }
 
-    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount)
+    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler)
     {
         magSize = _magSize;
         bulletCount = _bulletCount;
@@ -85,6 +85,8 @@ public class gun : MonoBehaviour
         {
             isSemiBurst = true;
         }
+
+        cardHandler = _handler;
     }
 
     private void Update()
@@ -334,7 +336,7 @@ public class gun : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, muzzleoffset, spread) as GameObject;
 
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
-        thisBullet.BulletStats(damage);
+        thisBullet.BulletStats(damage, cardHandler);
 
         thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
 
@@ -349,7 +351,7 @@ public class gun : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(player.transform.rotation.eulerAngles)) as GameObject;
 
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
-        thisBullet.BulletStats(damage);
+        thisBullet.BulletStats(damage, cardHandler);
 
         thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
 

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13966, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: New map
+  m_EditorClassIdentifier: 
+  templateScene: {fileID: 102900000, guid: c397daa1c2fa23a4197c934302a3c839, type: 3}
+  templateName: New map (scene)
+  description: Create a new map with the scenemanager etc
+  preview: {fileID: 0}
+  dependencies:
+  - dependency: {fileID: 3377328355976732942, guid: c7f2c05a3e121534283d5ffe0376fdcf, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 3269604252719804931, guid: aa4815d9ab539114ea780dfabc2a056c, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 648432548222907032, guid: 2b9ec9870135b9d4993625bc971691ae, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 11400000, guid: 2c55982a094412944bf0271f460df921, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: fda9485ad2993cf4ea4be1661c7c05e5, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: c027ad7c7e11d61458b8f0cb52723aa5, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 13a31b541d952044a8e30911b49e7ee1, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 32799fc6ae9ceb94ca53fa898520c52a, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 8f58d926f9a99fc449707427a3a4e983, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: e70dbb78c051c4f4c9d837b10df62d1c, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 11303cbe1582954448a84506788c7df9, type: 2}
+    instantiationMode: 1
+  templatePipeline: {fileID: 0}
+  addToDefaults: 0

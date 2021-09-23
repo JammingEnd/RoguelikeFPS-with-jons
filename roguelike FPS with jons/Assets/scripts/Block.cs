@@ -6,7 +6,7 @@ public class Block : MonoBehaviour
 {
     public List<GameObject> aquiredBlockCards = new List<GameObject>();
 
-    public float blockCooldown;
+    private float blockCooldown;
 
     private bool isOnCd;
 
@@ -39,7 +39,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void AssignVariables(float blockCd)
+    public void AssignVariables(float blockCd)
     {
         blockCooldown = blockCd;
     }

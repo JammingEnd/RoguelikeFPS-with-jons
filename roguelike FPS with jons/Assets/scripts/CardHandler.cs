@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class CardHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<CardBase> currentCards = new List<CardBase>();
 
-    // Update is called once per frame
-    void Update()
+    public List<CardBase> cardBehaviourScriptsRef = new List<CardBase>();
+
+    
+    public void NewRound()
     {
-        
+        foreach (CardBase card in currentCards)
+        {
+            card.SelectCard(this.gameObject.GetComponent<StatCenter>());
+            card.SetVariablesForStatCenter();
+        }
     }
 }

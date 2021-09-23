@@ -9,6 +9,7 @@ TagManager:
   - attribute
   - Terrain
   - bullet
+  - CardSelect
   layers:
   - Default
   - TransparentFX

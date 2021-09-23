@@ -96,7 +96,6 @@ public class PlayerMovementController : MonoBehaviour
             StartCoroutine(Cooldown(2));
             if (!hasFovAdd)
             {
-                Debug.Log("add");
 
                 playerCam.fieldOfView += 20;
             }
@@ -167,6 +166,10 @@ public class PlayerMovementController : MonoBehaviour
 
             Vector3 newPositionUp = rb.position + rb.transform.TransformDirection(movementUp);
             rb.MovePosition(newPositionUp);
+            if(hAxis == 0 || vAxis == 0 && isClimbing)
+            {
+                rb.velocity = new Vector3(0, 0, 0);
+            }
         }
     }
 
@@ -215,7 +218,6 @@ public class PlayerMovementController : MonoBehaviour
                 rb.AddForce(transform.forward * SlideSpeed, ForceMode.VelocityChange);
 
                 playerCam.fieldOfView -= 20;
-                Debug.Log("remove");
                 hasFovAdd = false;
             }
            
