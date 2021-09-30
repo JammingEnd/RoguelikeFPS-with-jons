@@ -20,7 +20,7 @@ public class gun : MonoBehaviour
     private bool isSemiBurst = false;
 
     //  private Animation reloadAnim;
-    private Animator animController;
+    public Animator animController;
 
     public GameObject muzzlePlace;
     public GameObject magPlace;
@@ -63,13 +63,15 @@ public class gun : MonoBehaviour
     private void Start()
     {
         currentMag = (GameObject)Instantiate(currentMag, magPlace.transform);
-        playerCamera = gameObject.GetComponentInParent<PlayerCameraCon>();
-        animController = gameObject.GetComponent<Animator>();
+       // playerCamera = gameObject.GetComponentInParent<PlayerCameraCon>();
+       // animController = this.gameObject.GetComponent<Animator>();
+        
     }
 
-    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler)
+    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler, PlayerCameraCon eyes)
     {
         magSize = _magSize;
+        currentAmmo = magSize;
         bulletCount = _bulletCount;
         damage = _damage;
         fireRate = _firerate;
@@ -87,6 +89,7 @@ public class gun : MonoBehaviour
         }
 
         cardHandler = _handler;
+        playerCamera = eyes;
     }
 
     private void Update()

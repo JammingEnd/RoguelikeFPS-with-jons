@@ -107,7 +107,7 @@ public class StatCenter : MonoBehaviour
         float finalFr = Mathf.Sqrt((60 / gunFireRate));
         weaponWielder.SwitchWeapons();
         gun = weaponWielder.currentGun.GetComponent<gun>();
-        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler);
+        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler, this.gameObject.GetComponentInChildren<PlayerCameraCon>());
     }
 
     private void ActivatePlayer()
