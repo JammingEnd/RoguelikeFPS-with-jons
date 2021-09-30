@@ -42,6 +42,7 @@ public class StatCenter : MonoBehaviour
     private PlayerHp playerHp;
     private PlayerMovementController playerMovement;
     private Block block;
+    public GameObject muzzlePlace;
 
     private void Start()
     {
@@ -107,7 +108,7 @@ public class StatCenter : MonoBehaviour
         float finalFr = Mathf.Sqrt((60 / gunFireRate));
         weaponWielder.SwitchWeapons();
         gun = weaponWielder.currentGun.GetComponent<gun>();
-        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler, this.gameObject.GetComponentInChildren<PlayerCameraCon>());
+        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler, this.gameObject.GetComponentInChildren<PlayerCameraCon>(), muzzlePlace);
     }
 
     private void ActivatePlayer()

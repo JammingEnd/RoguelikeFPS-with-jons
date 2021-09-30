@@ -12,7 +12,27 @@ ModelImporter:
   - first:
       74: -8081410755435903686
     second: Armature|Reload (1)
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: cdb0c3e3a7b4bcc4895a89df7c9c9a14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mag
+    second: {fileID: 2100000, guid: 157f82a205d56b04eaa99b02d5b2ddae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: underbarrel
+    second: {fileID: 2100000, guid: cdb0c3e3a7b4bcc4895a89df7c9c9a14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: upperbarrel
+    second: {fileID: 2100000, guid: 237c7b2e6af0b8947a0179616542ce06, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

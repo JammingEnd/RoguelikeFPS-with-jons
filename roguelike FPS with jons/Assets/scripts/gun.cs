@@ -22,7 +22,7 @@ public class gun : MonoBehaviour
     //  private Animation reloadAnim;
     public Animator animController;
 
-    public GameObject muzzlePlace;
+    private GameObject muzzlePlace;
     public GameObject magPlace;
     public GameObject currentMag;
 
@@ -62,13 +62,13 @@ public class gun : MonoBehaviour
 
     private void Start()
     {
-        currentMag = (GameObject)Instantiate(currentMag, magPlace.transform);
+       
        // playerCamera = gameObject.GetComponentInParent<PlayerCameraCon>();
        // animController = this.gameObject.GetComponent<Animator>();
         
     }
 
-    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler, PlayerCameraCon eyes)
+    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler, PlayerCameraCon eyes, GameObject firePos)
     {
         magSize = _magSize;
         currentAmmo = magSize;
@@ -90,6 +90,7 @@ public class gun : MonoBehaviour
 
         cardHandler = _handler;
         playerCamera = eyes;
+        muzzlePlace = firePos;
     }
 
     private void Update()
@@ -332,7 +333,7 @@ public class gun : MonoBehaviour
     {
         // fire() but with spread
         GameObject player = gameObject.GetComponentInParent<Transform>().gameObject;
-        Quaternion spread = Quaternion.Euler(player.transform.rotation.eulerAngles + new Vector3(Random.Range(-maxSpread, maxSpread), Random.Range(-maxSpread, maxSpread), 0f));
+        Quaternion spread = Quaternion.Euler(muzzlePlace.transform.rotation.eulerAngles + new Vector3(Random.Range(-maxSpread, maxSpread), Random.Range(-maxSpread, maxSpread), 0f));
 
         Vector3 muzzleoffset = muzzlePlace.transform.position;
 
@@ -351,7 +352,7 @@ public class gun : MonoBehaviour
         GameObject player = gameObject.GetComponentInParent<Transform>().gameObject;
         Vector3 muzzleoffset = muzzlePlace.transform.position;
 
-        GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(player.transform.rotation.eulerAngles)) as GameObject;
+        GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(muzzlePlace.transform.rotation.eulerAngles)) as GameObject;
 
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
         thisBullet.BulletStats(damage, cardHandler);

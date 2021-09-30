@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Bullet : MonoBehaviour
 {
     public float Damage;
@@ -11,8 +11,16 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         Destroy(this.gameObject, lifetime);
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        StartCoroutine(GetVisible());
     }
+    IEnumerator GetVisible()
+    {
 
+        yield return new WaitForSeconds(0.05f);
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        StopAllCoroutines();
+    }
     public void BulletStats(float damage, CardHandler handler)
     {
         Damage = damage;
