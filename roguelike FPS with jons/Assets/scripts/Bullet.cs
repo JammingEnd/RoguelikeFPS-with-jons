@@ -40,18 +40,22 @@ public class Bullet : MonoBehaviour
             enemy.currentHP -= Damage;
             foreach (CardBase item in cardHandler.cardBehaviourScriptsRef)
             {
-                if (!item.isBlockCard)
+                if (item != null)
                 {
-                    Component[] comps;
-                    comps = item.behaviourScript.gameObject.GetComponents<Component>();
-                    Debug.Log(comps[1].GetType().Name);
+                    if (!item.isBlockCard)
+                    {
+                        Component[] comps;
+                        comps = item.behaviourScript.gameObject.GetComponents<Component>();
+                        Debug.Log(comps[1].GetType().Name);
 
 
-                    enemy.gameObject.AddComponent(System.Type.GetType(comps[1].GetType().Name));
+                        enemy.gameObject.AddComponent(System.Type.GetType(comps[1].GetType().Name));
 
 
-                    Destroy(this.gameObject);
+                        Destroy(this.gameObject);
+                    }
                 }
+               
                 
             }
             if (collision.collider.tag == "Terrain")

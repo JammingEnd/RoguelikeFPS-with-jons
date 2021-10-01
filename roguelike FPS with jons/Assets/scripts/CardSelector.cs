@@ -19,14 +19,14 @@ public class CardSelector : MonoBehaviour
     CardBase GetCards()
     {
         CardBase newcard = allCards[Random.Range(0, allCards.Count + 1)];
-        foreach (CardBase Dupcard in selectionCards)
+      /*  foreach (CardBase Dupcard in selectionCards)
         {
             if(Dupcard == newcard)
             {
                 newcard = allCards[Random.Range(0, allCards.Count + 1)];
             }
         }
-
+        */
         return newcard;
     }
 }

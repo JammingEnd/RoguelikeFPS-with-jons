@@ -65,11 +65,22 @@ public class StatCenter : MonoBehaviour
 
     public void SetVariablesFromCard(string varName, float amount)
     {
+       
          var prop = this.GetType().GetProperty(varName);
          object o = prop.GetValue(this);
-         float f = (float)o;
-
-        prop.SetValue(this, f *= amount);
+        Debug.LogWarning(prop.PropertyType);
+        
+        if(prop.PropertyType == typeof(int))
+        {
+            int f = (int)o;
+            prop.SetValue(this, f += Mathf.RoundToInt(amount));
+        }
+        else
+        {
+            float f = (float)o;
+            prop.SetValue(this, f *= amount);
+        }
+        
         PostVariables();
     }
     public void PostVariables()
@@ -98,7 +109,7 @@ public class StatCenter : MonoBehaviour
         movementSpeed = 5;
         jumpHeight = 5;
         slideDistance = 10;
-        sprintSpeed = 4; // 1.5 * Sqrt(Sprintspeed)
+        sprintSpeed = 2; // 1.5 * Sqrt(Sprintspeed)
 
         health = 100;
     }

@@ -10,11 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2f4d8ba2fd96754798e909e2e75326e, type: 3}
-  m_Name: test4
+  m_Name: Larger Caliber
   m_EditorClassIdentifier: 
-  cardName: zwei
+  cardName: Larger Caliber
   behaviourScript: {fileID: 0}
+  behaviourName: 
   isNoDuplicateCard: 0
-  variableName: []
-  modifiers: []
+  isBlockCard: 0
+  variableName:
+  - gunDamage
+  - gunMagSize
+  modifiers:
+  - 1.4
+  - 0.8
   rarity: 0

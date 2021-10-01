@@ -21,17 +21,17 @@ public class GuiHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void AssignCards()
+    public void AssignCards(int dex)
     {
-        int i = 0;
+        
         foreach (Button card in cards)
         {
-            int KeyIndex = i;
-            card.GetComponentInChildren<Text>().text = cardSelector.selectionCards[i].cardName;
+            int KeyIndex = dex;
+            card.GetComponentInChildren<Text>().text = cardSelector.selectionCards[dex].cardName;
             card.onClick.AddListener( () => OnClick(KeyIndex));
 
 
-            i++;
+            dex++;
         }
     }
 
@@ -51,7 +51,8 @@ public class GuiHandler : MonoBehaviour
 
     public void Getcards()
     {
+        int i = 0;
         cardSelector.NewCards();
-        AssignCards();
+        AssignCards(i);
     }
 }
