@@ -24,12 +24,7 @@ public class WeaponWielderScript : MonoBehaviour
     }
     public void SwitchWeapons()
     {
-        
-        if (currentGun != null && currentGun != weapons[0])
-        {
-            Destroy(currentGun);
-        }
         currentGun = Instantiate(weapons[0], gunPos.transform);
-        gun = currentGun.GetComponent<gun>();
+       // gun = currentGun.GetComponent<gun>();
     }
 }

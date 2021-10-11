@@ -22,8 +22,15 @@ public class PlayerHp : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
-        currenthp = _damage;
+        currenthp -= _damage;
         playerGui.healthBar.fillAmount = currenthp / maxHp;
 
+    }
+    private void Update()
+    {
+        if(currenthp < maxHp)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

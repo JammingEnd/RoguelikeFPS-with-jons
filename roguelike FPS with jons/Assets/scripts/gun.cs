@@ -54,7 +54,7 @@ public class gun : MonoBehaviour
 
     [Header("other stuff, bullets etc")]
     private bool canfire = true;
-
+    private string player;
     private bool isReloading = false;
     public GameObject bullet;
     private CardHandler cardHandler;
@@ -68,8 +68,9 @@ public class gun : MonoBehaviour
         
     }
 
-    public void SetVariables(int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler, PlayerCameraCon eyes, GameObject firePos)
+    public void SetVariables(string _player, int _magSize, int _bulletCount, float _damage, float _firerate, float _velocity, float _reloadspeed, bool _isSemi, bool _isBurst, float _Hrecoil, float _Vrecoil, float _maxSpread, int _burstCount, CardHandler _handler, PlayerCameraCon eyes, GameObject firePos)
     {
+        player = _player;
         magSize = _magSize;
         currentAmmo = magSize;
         bulletCount = _bulletCount;
@@ -340,7 +341,7 @@ public class gun : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, muzzleoffset, spread) as GameObject;
 
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
-        thisBullet.BulletStats(damage, cardHandler);
+        thisBullet.BulletStats(damage, name ,cardHandler);
 
         thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
 
@@ -355,7 +356,7 @@ public class gun : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, muzzleoffset, Quaternion.Euler(muzzlePlace.transform.rotation.eulerAngles)) as GameObject;
 
         Bullet thisBullet = newBullet.GetComponent<Bullet>();
-        thisBullet.BulletStats(damage, cardHandler);
+        thisBullet.BulletStats(damage, name,cardHandler);
 
         thisBullet.GetComponent<Rigidbody>().AddForce(thisBullet.transform.forward * (velocity * 5), ForceMode.Impulse);
 

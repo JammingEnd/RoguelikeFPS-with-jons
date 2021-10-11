@@ -43,24 +43,27 @@ public class StatCenter : MonoBehaviour
     private PlayerMovementController playerMovement;
     private Block block;
     public GameObject muzzlePlace;
+    public Camera playerCamera;
 
     private void Start()
     {
-        playerName = "Pierre";
-        this.gameObject.name = playerName;
+       /// playerName = "Pierre";
+
 
         weaponWielder = gameObject.GetComponentInChildren<WeaponWielderScript>();
+
         playerMovement = gameObject.GetComponent<PlayerMovementController>();
         cardHandler = gameObject.GetComponent<CardHandler>();
         playerHp = gameObject.GetComponent<PlayerHp>();
         block = gameObject.GetComponent<Block>();
+        playerCamera = gameObject.GetComponentInChildren<Camera>();
         //temp
         DefaultStat();
 
-        ActivateWeapon();
-        ActivatePlayer();
-        ActivateHealth();
-        ActivateBlock();
+       //  ActivateWeapon();
+       // ActivatePlayer();
+       /// ActivateHealth();
+       // ActivateBlock();
     }
 
     public void SetVariablesFromCard(string varName, float amount)
@@ -106,7 +109,7 @@ public class StatCenter : MonoBehaviour
         isSemi = false;
         isBurst = false;
 
-        movementSpeed = 5;
+        movementSpeed = 3;
         jumpHeight = 5;
         slideDistance = 10;
         sprintSpeed = 2; // 1.5 * Sqrt(Sprintspeed)
@@ -119,7 +122,8 @@ public class StatCenter : MonoBehaviour
         float finalFr = Mathf.Sqrt((60 / gunFireRate));
         weaponWielder.SwitchWeapons();
         gun = weaponWielder.currentGun.GetComponent<gun>();
-        gun.SetVariables(gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler, this.gameObject.GetComponentInChildren<PlayerCameraCon>(), muzzlePlace);
+       
+        gun.SetVariables(playerName, gunMagSize, gunBulletCount, gunDamage, finalFr, bulletVelocity, gunReloadSpeed, isSemi, isBurst, gunRecoilH, gunRecoilV, gunMaxSpread, gunBurstCount, cardHandler, this.gameObject.GetComponentInChildren<PlayerCameraCon>(), muzzlePlace);
     }
 
     private void ActivatePlayer()
@@ -135,5 +139,11 @@ public class StatCenter : MonoBehaviour
     private void ActivateBlock()
     {
         block.AssignVariables(blockCooldown);
+    }
+    public void SetName(string _name)
+    {
+        playerName = _name;
+        Debug.Log(_name);
+        this.gameObject.name = playerName;
     }
 }

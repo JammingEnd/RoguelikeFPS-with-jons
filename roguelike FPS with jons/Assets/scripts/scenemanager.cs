@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class scenemanager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private GuiHandler guiHandler;
+   // private PlayersInGameHandler playersInGame;
+    private Lobby lobby;
+    private CardHandler playerLostRound;
     void Start()
     {
-      //  Cursor.lockState = CursorLockMode.Locked;
         Physics.IgnoreLayerCollision(7, 7, true);
+        lobby = GameObject.FindObjectOfType<Lobby>();
+
+        guiHandler = GetComponent<GuiHandler>();
+       // playersInGame = GetComponent<PlayersInGameHandler>();
+        playerLostRound = lobby.playersInLobby[0].GetComponent<CardHandler>();
+        guiHandler.cardHandler = playerLostRound;
     }
 
     // Update is called once per frame

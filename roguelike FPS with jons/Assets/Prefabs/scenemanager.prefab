@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3269604252719804928}
   - component: {fileID: 3269604252719804942}
   - component: {fileID: 3269604252719804943}
+  - component: {fileID: 6468392819102965643}
   m_Layer: 0
   m_Name: scenemanager
   m_TagString: manager
@@ -58,7 +59,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11702579813e16941a7dde2aa264b271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allCards: []
+  allCards:
+  - {fileID: 11400000, guid: c43f3915564308c40a75d66063eac023, type: 2}
+  - {fileID: 11400000, guid: 85a29d9a1b5a76f45a96977f59812932, type: 2}
+  - {fileID: 11400000, guid: e16b9d76a4614ba4fad4c49ee012f78c, type: 2}
+  - {fileID: 11400000, guid: 6c05305361c08274eb7ad42fb7fdc9f0, type: 2}
+  - {fileID: 11400000, guid: 92f2cbc8ae8103d4a9a7e39906227069, type: 2}
+  - {fileID: 11400000, guid: 92f2cbc8ae8103d4a9a7e39906227069, type: 2}
+  - {fileID: 11400000, guid: 92f2cbc8ae8103d4a9a7e39906227069, type: 2}
+  - {fileID: 11400000, guid: 92f2cbc8ae8103d4a9a7e39906227069, type: 2}
   selectionCards: []
   cardsToSelect: 5
 --- !u!114 &3269604252719804943
@@ -79,6 +88,22 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &6468392819102965643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269604252719804931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5fda6d20fa8a3419e844896086e62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allPlayerNames:
+  - Pierre
+  - Hamir
+  allPlayers: []
 --- !u!1 &8703600109595696547
 GameObject:
   m_ObjectHideFlags: 0
